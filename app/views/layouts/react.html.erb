@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <title>Project Fox</title>
+    <%= javascript_include_tag "app", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+    <script type="text/javascript">
+      if (window.location.hash && window.location.hash == '#_=_') {
+          window.location.hash = '';
+      }
+    </script>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+
+  <%= console if Rails.env == "development" %>
+
+  <script type="text/javascript">
+    var $     = projectfox.$,
+        _     = projectfox._,
+        React = projectfox.React;
+
+    $(document).ready(function() {
+      var config = {
+        baseUrl: '<%=request.base_url%>/'
+      };
+      projectfox.app(config);
+    });
+  </script>
+</html>
