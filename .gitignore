@@ -23,7 +23,7 @@ npm-debug.log
 
 /node_modules/*
 *.swp
-/.idea/
+.idea/
 /node_modules/
 
 pics/
