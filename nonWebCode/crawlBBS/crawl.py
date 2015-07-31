@@ -2,6 +2,7 @@ __author__ = 'JennyYueJin'
 
 from pprint import pprint
 import os
+import re
 
 import shutil
 import requests
@@ -33,7 +34,7 @@ def download_pic(link, outputDir, suffix=None):
 
     # write to file
     name, ext = os.path.splitext(os.path.basename(urlparse.urlparse(link).path))
-    filename = name + ('' if suffix is None else '_' + str(suffix)) + '.' + ext
+    filename = name + ('' if suffix is None else '_' + str(suffix)) + ext
 
     outputFpath = os.path.join(outputDir, filename)
 
@@ -51,11 +52,23 @@ def convert_price_text(t):
     :return: price, unit (i.e. 175, 'month')
     """
 
-    price, unit = t.split('$')[1].split('/')
-    return float(price.strip().strip('$')), unit
+    tok = t.split('$')[1]
+    if '/' in tok:
+        price, unit = tok.split('/')
+    else:
+        price = tok
+        unit = None
+
+    return float(price.strip().strip('$').replace(',', '')), unit
 
 
-def crawl_page(url, imgOutputDir=None):
+def crawl_single_page(url, imgOutputDir=None):
+    """
+    crawls http://www.bagborroworsteal.com/buy/browse?nodeId=3165&page=9
+    :param url:
+    :param imgOutputDir:
+    :return:
+    """
 
     soup = get_soup(url)
 
@@ -72,10 +85,7 @@ def crawl_page(url, imgOutputDir=None):
                 download_pic(imgUrl, imgOutputDir)
 
             # compute price
-            priceClass = '.borrowBrowsePrice' \
-                if len(prod.select('.borrowBrowsePrice')) > 0 \
-                else '.borrowBrowsePriceSale'
-            priceText = prod.select(priceClass)[0].text
+            priceText = prod.find(text = re.compile('.*\$.*'))
 
             # get designer
             designer = prod.select('.borrowBrowseBrandName')[0].text
@@ -92,20 +102,47 @@ def crawl_page(url, imgOutputDir=None):
 
     return res
 
-output = {}
 
-# crawl by page in 'Designers'
-for pageNum in range(1, 33):
-    print '>>>>>>', pageNum
+def crawl_page(baseUrl, queryWithoutPageNum, numPages, outputDir, outputImages):
+    """
+    crawls http://www.bagborroworsteal.com/buy
+    :return: {id: {price: (price, unit), imgUrl: imgUrl, designer: designer} }
+    """
 
-    url = 'http://www.bagborroworsteal.com/borrow/browse?nodeId=18&page=%i' % pageNum
-    curRes = crawl_page(url, imgOutputDir=None)
-    output.update(curRes)
+    output = {}  # {id: {price: (price, unit), imgUrl: imgUrl, designer: designer} }
 
-    print 'Got %i results; total %i' % (len(curRes), len(output))
+    # crawl by page in 'Designers'
+    for pageNum in range(1, numPages+1):
+        print '>>>>>>', pageNum
 
-json.dump(output, open('./output/crawlResults.json', 'w'))
+        url = '%s/%s%i' % (baseUrl, queryWithoutPageNum, pageNum)
+            # 'http://www.bagborroworsteal.com/borrow/browse?nodeId=18&page=%i' % pageNum
+        curRes = crawl_single_page(url, os.path.join(outputDir, 'pics') if outputImages else None)
+        output.update(curRes)
+
+        print 'Got %i results; total %i' % (len(curRes), len(output))
+
+    json.dump(output, open(os.path.join(outputDir, 'crawlResults.json'), 'w'))
+
+    return output
 
 
-# TODO: crawl by designer
-# crawl_page('http://www.bagborroworsteal.com/borrow/designers/alexander-mcqueen')
+if __name__ == '__main__':
+    # crawl borrows
+    borrowsDict = crawl_page('http://www.bagborroworsteal.com/borrow', 'browse?nodeId=18&page=', 32, './output/borrow', True)
+
+    # crawl buys
+    buysDict = crawl_page('http://www.bagborroworsteal.com/buy', 'browse?nodeId=3165&page=', 9, './output/buy', True)
+
+
+    # ---- run some analytics by designer and overall distribution
+    # outputByDesigner = {}   # {designer: list of prices}
+    #
+    # # get all designers
+    # for id, d in output.iteritems():
+    #     designer = d['designer']
+    #
+    #     if designer not in outputByDesigner:
+    #         outputByDesigner[designer] = []
+    #
+    #     outputByDesigner[designer].append(d['price'][0])
