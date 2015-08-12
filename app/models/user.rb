@@ -5,4 +5,7 @@ class User < ActiveRecord::Base
          :rememberable, :trackable, :validatable, :omniauthable,
          omniauth_providers: [:facebook, :twitter], authentication_keys: [:login]
   has_many :items, dependent: :destroy
+  has_many :user_identifications, dependent: :destroy
+  has_many :ratings, dependent: :destroy
+  has_many :transactions, dependent: :destroy
 end

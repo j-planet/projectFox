@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :transactions
+  resources :ratings
+  resources :user_identifications
   root 'react#home'
   resources :items
 
