@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing User Identifications</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Code</th>
+      <th>Imgpath</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_identifications.each do |user_identification| %>
+      <tr>
+        <td><%= user_identification.type %></td>
+        <td><%= user_identification.code %></td>
+        <td><%= user_identification.imgpath %></td>
+        <td><%= user_identification.user %></td>
+        <td><%= link_to 'Show', user_identification %></td>
+        <td><%= link_to 'Edit', edit_user_identification_path(user_identification) %></td>
+        <td><%= link_to 'Destroy', user_identification, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User identification', new_user_identification_path %>

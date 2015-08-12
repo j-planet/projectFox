@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @user_identification.type %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @user_identification.code %>
+</p>
+
+<p>
+  <strong>Imgpath:</strong>
+  <%= @user_identification.imgpath %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @user_identification.user %>
+</p>
+
+<%= link_to 'Edit', edit_user_identification_path(@user_identification) %> |
+<%= link_to 'Back', user_identifications_path %>
