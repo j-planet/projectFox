@@ -11,4 +11,12 @@ class Item < ActiveRecord::Base
 
   # TODO:
   #   - available dates instead of is_available
+
+  def owner_and_renter_must_be_different
+    if self.owner == self.renter
+      msg = 'Owner and renter cannot be the same.'
+      errors.add(:owner, msg)
+      errors.add(:renter, msg)
+    end
+  end
 end

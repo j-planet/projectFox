@@ -4,7 +4,7 @@ class CreateUserIdentifications < ActiveRecord::Migration
       t.string :type
       t.string :code
       t.string :imgpath
-      t.belongs_to :user, index: true, foreign_key: true, null: false
+      t.references :user, index: true, foreign_key: true, null: false
 
       t.timestamps null: false
     end

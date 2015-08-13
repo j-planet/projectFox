@@ -3,7 +3,7 @@ class CreateItems < ActiveRecord::Migration
     create_table :items do |t|
       t.references :owner, index: true, null: false
       t.references :renter, index: true
-      t.references :brand, index: true
+      t.references :brand, index: true, null: false, foreign_key: true
       t.string :name, index: true
       t.text :description
       t.string :thumbnailImg
