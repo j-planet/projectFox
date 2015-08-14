@@ -1,10 +1,10 @@
 FactoryGirl.define do
+  daysTillStart = rand(30)  # rental start date is 0~30 days from now on
+
   factory :transaction do
-    fromUser nil
-toUser nil
-fromDate "2015-08-12 04:03:37"
-toDate "2015-08-12 04:03:37"
-price "9.99"
+    fromDate { Date.today + daysTillStart }
+    toDate { Date.today + daysTillStart + rand(10) +1 }  # rental duration of 1~10 days
+    price {1000 + rand * 1000}  # price is a random number in [1000, 2000]
   end
 
 end

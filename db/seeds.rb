@@ -6,20 +6,5 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-require('factory_girl_rails')
-FactoryGirl.define do
-  factory :user do
-    sequence(:name) { |i| "TestName_#{i}"}
-    sequence(:username) { |i| "TestUserName_#{i}"}
-    sequence(:email) { |i| "TestEmail_#{i}@bagwhim.com"}
-    sequence(:password) { |i| "TestPassword_#{i}"}
-  end
+# require 'factory_girl_rails'
 
-  factory :brand do
-    sequence(:name) { |i| "TestBrandName_#{i}"}
-  end
-
-  factory :item do
-    sequence(:name) { |i| "TestItemName_#{i}"}
-  end
-end

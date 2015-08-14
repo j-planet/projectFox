@@ -1,7 +1,7 @@
 FactoryGirl.define do
+
   factory :rating do
-    by ""
-stars 1
+    sequence(:stars) { |i| i%5 + 1}
   end
 
 end
