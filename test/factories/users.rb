@@ -5,6 +5,9 @@ FactoryGirl.define do
     sequence(:email) { |i| "TestEmail_#{i}@bagwhim.com"}
     sequence(:password) { |i| "TestPassword_#{i}"}
 
-    association :user_identification
+    # user_identifications {[FactoryGirl.create(:user_identification)]}
+    # association :user_identification
   end
 end
+
+# FactoryGirl.build(:user)

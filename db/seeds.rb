@@ -8,3 +8,35 @@
 
 # require 'factory_girl_rails'
 
+
+# create some users
+u1 = FactoryGirl.create(:user)
+u2 = FactoryGirl.create(:user)
+u3 = FactoryGirl.create(:user)
+u4 = FactoryGirl.create(:user)
+u5 = FactoryGirl.create(:user)
+
+# create some brands
+b1 = FactoryGirl.create(:brand)
+b2 = FactoryGirl.create(:brand)
+b3 = FactoryGirl.create(:brand)
+
+# create some items
+item1 = FactoryGirl.create(:item, brand: b1, owner: u1)
+item2 = FactoryGirl.create(:item, brand: b1, owner: u2)
+item3 = FactoryGirl.create(:item, brand: b1, owner: u3)
+item4 = FactoryGirl.create(:item, brand: b2, owner: u4)
+item5 = FactoryGirl.create(:item, brand: b3, owner: u5)
+
+item6 = FactoryGirl.create(:item, brand: b2, owner: u5)
+item7 = FactoryGirl.create(:item, brand: b3, owner: u5)
+item8 = FactoryGirl.create(:item, brand: b1, owner: u3)
+item9 = FactoryGirl.create(:item, brand: b2, owner: u4)
+item10 = FactoryGirl.create(:item, brand: b3, owner: u5)
+
+item11 = FactoryGirl.create(:item, brand: b3, owner: u2)
+item12 = FactoryGirl.create(:item, brand: b3, owner: u2)
+item13 = FactoryGirl.create(:item, brand: b3, owner: u4)
+item14 = FactoryGirl.create(:item, brand: b1, owner: u4)
+item15 = FactoryGirl.create(:item, brand: b1, owner: u4)
+
