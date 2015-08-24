@@ -7,14 +7,16 @@ class DateRangeArray < ActiveRecord::Base
 
   serialize :ranges, DateRangeArrayParser
 
-  def initialize(*args)
-    @ranges = [Date.today..Date::Infinity.new]
-    super(*args)
+  after_initialize :init
+
+  # default to 10 years
+  def init
+    self.ranges ||= [Date.today..Date.today+10.years]
   end
 
   # remove given range from list of ranges
   def remove_range(range_to_remove)
-    @ranges = @ranges.collect { |r| self.class.subtract(r, range_to_remove)}
+    self.ranges = self.ranges.collect { |r| self.class.subtract(r, range_to_remove)}
                   .flatten
   end
 
@@ -27,7 +29,7 @@ class DateRangeArray < ActiveRecord::Base
   end
 
   # exclude small from big, there may not be intersections between the two
-  # RECURSSIVE!!
+  # RECURSIVE!!
   def self.subtract(big, small)
 
     # cases where the end points are identical

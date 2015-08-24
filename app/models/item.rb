@@ -6,12 +6,11 @@ class Item < ActiveRecord::Base
   has_one :date_range_array
   has_many :transactions, dependent: :destroy
 
-  # validates :owner_id, presence: true
+  # ---- validations ----
+  validates :owner_id, presence: true
   validates_presence_of :owner, :brand
   validates_numericality_of :condition, :in => 1..5 # condition of the purse, 5 being the best.
-
-  # TODO:
-  #   - available dates instead of is_available
+  before_create :owner_and_renter_must_be_different
 
   def owner_and_renter_must_be_different
     if self.owner == self.renter
