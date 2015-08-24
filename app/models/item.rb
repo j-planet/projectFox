@@ -3,6 +3,7 @@ class Item < ActiveRecord::Base
   belongs_to :renter, class_name: "User", foreign_key: "renter_id"
   belongs_to :brand
 
+  has_one :date_range_array
   has_many :transactions, dependent: :destroy
 
   # validates :owner_id, presence: true

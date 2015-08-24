@@ -1,22 +1,20 @@
 require 'date'
+require 'date_range_array_parser'
 
-class DateRanges
 
-  def initialize()
+class DateRangeArray < ActiveRecord::Base
+  belongs_to :item
+
+  serialize :ranges, DateRangeArrayParser
+
+  def initialize(*args)
     @ranges = [Date.today..Date::Infinity.new]
-  end
-
-  def get_ranges()
-    @ranges
-  end
-
-  def set_ranges(ranges)
-    @ranges = ranges
+    super(*args)
   end
 
   # remove given range from list of ranges
-  def remove_range(rangeToRemove)
-    @ranges = @ranges.collect { |r| self.class.subtract(r, rangeToRemove)}
+  def remove_range(range_to_remove)
+    @ranges = @ranges.collect { |r| self.class.subtract(r, range_to_remove)}
                   .flatten
   end
 
@@ -25,7 +23,7 @@ class DateRanges
     l = [r1.begin, r2.begin].max
     r = [r1.end, r2.end].min
 
-    if l<=r then l..r else nil end
+    l<=r ? l..r : nil
   end
 
   # exclude small from big, there may not be intersections between the two
@@ -34,11 +32,11 @@ class DateRanges
 
     # cases where the end points are identical
     if big.begin == small.begin   # leads to a return
-      return (if small.end < big.end then [(small.end+1)..big.end] else [] end)
+      return (small.end < big.end ? [(small.end+1)..big.end] : [])
     end
 
     if big.end == small.end   # leads to a return
-      return (if small.begin > big.begin then [big.begin..(small.begin-1)] else [] end)
+      return (small.begin > big.begin ? [big.begin..(small.begin-1)] : [])
     end
 
     # no matching end points
@@ -61,3 +59,4 @@ class DateRanges
   end
 
 end
+

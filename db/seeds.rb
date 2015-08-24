@@ -40,3 +40,7 @@ item13 = FactoryGirl.create(:item, brand: b3, owner: u4)
 item14 = FactoryGirl.create(:item, brand: b1, owner: u4)
 item15 = FactoryGirl.create(:item, brand: b1, owner: u4)
 
+# create available dates for items
+dateRangeArray1 = FactoryGirl.create(:date_range_array, item: item1)
+dateRangeArray2 = FactoryGirl.create(:date_range_array, item: item2)
+dateRangeArray3 = FactoryGirl.create(:date_range_array, item: item3)

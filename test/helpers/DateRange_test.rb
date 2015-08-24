@@ -1,58 +1,58 @@
 require 'test_helper'
-require Rails.root.join('app', 'helpers', 'date_ranges.rb')
+require Rails.root.join('app', 'models', 'date_ranges.rb')
 
 class DateRangeTest < ActiveSupport::TestCase
   test 'intersection between 2 ranges - has intersection' do
     r1 = Date.today..(Date.today+10)
     r2 = (Date.today+5)..(Date.today+15)
 
-    assert_equal r2.begin..r1.end, DateRanges.intersect(r1, r2)
+    assert_equal r2.begin..r1.end, DateRangeArray.intersect(r1, r2)
   end
 
   test 'intersection between 2 ranges - no intersection' do
     r1 = Date.today..(Date.today+10)
     r2 = (Date.today+15)..(Date.today+15)
 
-    assert_equal nil, DateRanges.intersect(r1, r2)
+    assert_equal nil, DateRangeArray.intersect(r1, r2)
   end
 
   test 'intersection between 2 ranges - containment' do
     r1 = Date.today..(Date.today+10)
     r2 = (Date.today-5)..(Date.today+15)
 
-    assert_equal r1, DateRanges.intersect(r1, r2)
+    assert_equal r1, DateRangeArray.intersect(r1, r2)
   end
 
   test 'remove one range from another - has intersection' do
     r1 = Date.today..(Date.today+10)
     r2 = (Date.today+5)..(Date.today+15)
 
-    assert_equal [r1.begin..(r2.begin-1)], DateRanges.subtract(r1, r2)
+    assert_equal [r1.begin..(r2.begin-1)], DateRangeArray.subtract(r1, r2)
   end
 
   test 'remove one range from another - no intersection' do
     r1 = Date.today..(Date.today+10)
     r2 = (Date.today+15)..(Date.today+15)
 
-    assert_equal [r1], DateRanges.subtract(r1, r2)
+    assert_equal [r1], DateRangeArray.subtract(r1, r2)
   end
 
   test 'remove one range from another - big contained in small' do
     r1 = Date.today..(Date.today+10)
     r2 = (Date.today-5)..(Date.today+15)
 
-    assert_equal [], DateRanges.subtract(r1, r2)
+    assert_equal [], DateRangeArray.subtract(r1, r2)
   end
 
   test 'remove one range from another - small contained in big' do
     r1 = (Date.today-5)..(Date.today+15)
     r2 = Date.today..(Date.today+10)
 
-    assert_equal [r1.begin..(r2.begin-1), (r2.end+1)..r1.end], DateRanges.subtract(r1, r2)
+    assert_equal [r1.begin..(r2.begin-1), (r2.end+1)..r1.end], DateRangeArray.subtract(r1, r2)
   end
 
   test 'remove range from DateRange - no intersection' do
-    obj = DateRanges.new
+    obj = DateRangeArray.new
     obj.set_ranges(
         [Date.today-5..Date.today-2,
          Date.today..Date.today+10,
@@ -68,7 +68,7 @@ class DateRangeTest < ActiveSupport::TestCase
   end
 
   test 'remove range from DateRange - covers all ranges' do
-    obj = DateRanges.new
+    obj = DateRangeArray.new
     obj.set_ranges(
         [Date.today-5..Date.today-2,
          Date.today..Date.today+10,
@@ -81,7 +81,7 @@ class DateRangeTest < ActiveSupport::TestCase
   end
 
   test 'remove range from DateRange - covers 2 ranges entirely' do
-    obj = DateRanges.new
+    obj = DateRangeArray.new
     obj.set_ranges(
         [Date.today-5..Date.today-2,
          Date.today..Date.today+10,
@@ -94,7 +94,7 @@ class DateRangeTest < ActiveSupport::TestCase
   end
 
   test 'remove range from DateRange - contained in one range' do
-    obj = DateRanges.new
+    obj = DateRangeArray.new
     obj.set_ranges(
         [Date.today-5..Date.today-2,
          Date.today..Date.today+10,
@@ -111,7 +111,7 @@ class DateRangeTest < ActiveSupport::TestCase
   end
 
   test 'remove range from DateRange - covers 3 partially and end point' do
-    obj = DateRanges.new
+    obj = DateRangeArray.new
     obj.set_ranges(
         [Date.today-5..Date.today-2,
          Date.today..Date.today+10,
