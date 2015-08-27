@@ -90,7 +90,7 @@ var SessionStore = _.extend({
   requestUserInfo: function(){
     AppRequest({
       type:   'GET',
-      url:    rUrl('oauth_user_info'),
+      url:    rUrl('oauth_user_info')
     }).then(
       function(data){
         SessionActions.receiveUserInfo(data);

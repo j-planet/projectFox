@@ -3,11 +3,13 @@ var $ = require('jquery');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 var Uri = require('jsuri');
+
 // Components
 var TopBar = require('./Shared/TopBar');
 var SignInForm = require('./Shared/SignInForm');
 var SignUpForm = require('./Shared/SignUpForm');
-// Stores 
+
+// Stores
 var SessionStore = require('../stores/SessionStore');
 var DataStore = require('../stores/DataStore');
 
@@ -40,7 +42,7 @@ var App = React.createClass({
     var jwt = new Uri(location.search).getQueryParamValue('jwt');
 
     if(!!jwt){
-      var data = {access_token: jwt}
+      var data = {access_token: jwt};
       SessionActions.receiveLogin(data,null);
       SessionActions.requestUserInfo();  
       location.href = sessionStorage.getItem('currentUrl');

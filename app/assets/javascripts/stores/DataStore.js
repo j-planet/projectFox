@@ -14,7 +14,7 @@ function rUrl(url) {
 }
 
 var _DataStore = I.fromJS({
-  allItems: [],
+  allItems: []
 });
 
 var DataStore = _.extend({
@@ -29,7 +29,7 @@ var DataStore = _.extend({
   requestAllItems: function(){
     AppRequest({
       type: 'get',
-      url: rUrl('items'),
+      url: rUrl('items')
     }).then(
       function(response) {
         AppActions.receiveAllItems(response);
