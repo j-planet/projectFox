@@ -8,7 +8,7 @@ var AppRequest = function(options) {
   var params = {
     dataType: 'json',
     // contentType: 'application/json',
-    timeout: 3 * 60 * 1000,
+    timeout: 3 * 60 * 1000
     // headers: {'accessToken': accessToken }
   };
 

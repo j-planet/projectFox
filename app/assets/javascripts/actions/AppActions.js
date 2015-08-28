@@ -6,7 +6,7 @@ var AppActions = {
   // Items
   requestAllItems: function(){    
     AppDispatcher.dispatch({
-      actionType: ActionTypes.REQUEST_ALL_ITEMS,
+      actionType: ActionTypes.REQUEST_ALL_ITEMS
     });
   },
   receiveAllItems: function(data){

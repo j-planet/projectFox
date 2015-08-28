@@ -6,9 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-# require 'factory_girl_rails'
-
-
 # create some users
 u1 = FactoryGirl.create(:user)
 u2 = FactoryGirl.create(:user)
@@ -22,7 +19,8 @@ b2 = FactoryGirl.create(:brand)
 b3 = FactoryGirl.create(:brand)
 
 # create some items
-item1 = FactoryGirl.create(:item, brand: b1, owner: u1)
+item1 = FactoryGirl.create(:item, brand: b1, owner: u1,
+                           images: ['http://placehold.it/350x150'])
 item2 = FactoryGirl.create(:item, brand: b1, owner: u2)
 item3 = FactoryGirl.create(:item, brand: b1, owner: u3)
 item4 = FactoryGirl.create(:item, brand: b2, owner: u4)
